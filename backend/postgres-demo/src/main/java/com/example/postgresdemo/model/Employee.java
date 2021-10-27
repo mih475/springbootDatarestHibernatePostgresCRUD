@@ -8,13 +8,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "employees")
+@Table(name = "employees_db")
 public class Employee {
 
     private long id;
+
+    @Column(name = "firstname") 
     private String firstname;
+
+    @Column(name = "lastname")
     private String lastname;
+
+    @Column(name = "role", nullable = false)
     private String role;
+
+    @Column(name = "email", nullable = false)
     private String email;
  
     public Employee() {
@@ -37,7 +45,7 @@ public class Employee {
         this.id = id;
     }
  
-     @Column(name = "afirstname", nullable = false)
+     
      public String getFirstName() {
          return firstname;
      }
@@ -45,7 +53,7 @@ public class Employee {
          this.firstname = firstname;
      }
  
-    @Column(name = "blastname")
+    
     public String getLastName() {
         return lastname;
     }
@@ -53,7 +61,6 @@ public class Employee {
         this.lastname = lastname;
     }
 
-    @Column(name = "role", nullable = false)
     public String getRole() {
         return role;
     }
@@ -61,7 +68,6 @@ public class Employee {
         this.role = role;
     }
  
-    @Column(name = "email", nullable = false)
     public String getEmail() {
         return email;
     }
