@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { RouteComponentProps } from 'react-router';
 import _ from 'lodash';
-import { EmployeeIStates } from './EmployeeInterfaceStates';
+import { EmployeeIStates } from './interfaces/EmployeeInterfaceStates';
 import { PaginationInterface } from './pagination/PaginationInterface';
 import Pagination from './pagination/Pagination';
 
@@ -26,13 +26,16 @@ class EmployeeList extends Component<RouteComponentProps,EmployeeIStates & Pagin
       //Methods
       componentWillMount(): void {const api_url = 'http://localhost:7000/employees/';
         axios.get(api_url).then(response => {
-        this.setState({datarecords: response.data as any});
-        this.extractColumnNames();
+          this.setState({datarecords: response.data as any});
+          this.extractColumnNames();
+        }).catch(function(err){
+          console.log(err); // Network Error
+          alert("Database is under construction. Please try again later")
         });
         document.body.removeEventListener('click', this.myHandler);
         document.body.removeEventListener('click', this.changePage);
       }
-
+      
       
       private myHandler(id: any) {
         console.log (id);
@@ -86,6 +89,7 @@ class EmployeeList extends Component<RouteComponentProps,EmployeeIStates & Pagin
             <div>
                 {datarecords.length === 0 && (
                     <div className="text-center">
+                        <br/>
                         <h2>No datarecords found at the moment</h2>
                     </div>
                 )}

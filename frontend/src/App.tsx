@@ -15,7 +15,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import NotFound from './components/NotFound';
 
 
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, RouteComponentProps, BrowserRouter } from "react-router-dom";
+import routes from './components/routes';
 
 
 window.onerror = (msg, url, line, col, error) => {
@@ -42,6 +43,7 @@ window.onunhandledrejection = (e: PromiseRejectionEvent) => {
 }
 
 const App: React.FC = () =>{
+  //routes.find(this, EmpRoute, "Employee List")
   return (<Router>
     <div className="App">
       <header className="App-header">
@@ -49,14 +51,14 @@ const App: React.FC = () =>{
           <Container>
 
             <Navbar.Brand>
-              <Link to={"/employee-list"} className="nav-link">
+              <Link to="/" className="nav-link">
                 TCS Employee Portal
               </Link>
             </Navbar.Brand>
 
             <Nav className="justify-content-end">
               <Nav>
-                <Link to={"/create-employee"} className="nav-link">
+                <Link to="/create-employee" className="nav-link">
                   Create Employee
                 </Link>
               </Nav>
@@ -82,13 +84,32 @@ const App: React.FC = () =>{
         <Row>
           <Col md={12}>
             <div className="wrapper">
-              <Switch>
-                <Route exact path='/' component={EmployeeList} />
-                <Route path="/create-employee" component={CreateEmployee} />
-                <Route path="/edit-employee/" component={EditEmployee} />
-                <Route path="/employee-list" component={EmployeeList} />
-                <Route path='*' component = {NotFound}/>
-              </Switch>
+                  <Switch>
+                    {routes.map((route, index)=>{
+                        return (
+                          <Route
+                              key={index}
+                              path={route.path}
+                              exact={route.exact}
+                              render={(props: RouteComponentProps<any>) => (
+                                  <route.component
+                                      name={route.name}
+                                      {...props}
+                                      {...route.props}
+                                  />
+                              )}
+                          />
+                        );
+                    })}
+                    {/* <Route exact path='/' component={EmployeeList} />
+                    <Route path="/create-employee" component={CreateEmployee} />
+                    <Route path="/edit-employee/" component={EditEmployee} />
+                    <Route path="/employee-list" component={EmployeeList} />
+                    <Route path='*' component = {NotFound}/> */}
+                  </Switch>
+                  
+              
+              
             </div>
           </Col>
         </Row>

@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import axios, { AxiosResponse } from 'axios';
 import { ChangeEvent } from 'react';
 import { RouteComponentProps } from 'react-router';
-import { EditEmployeeI } from './EditEmployeeInterface';
+import { EditEmployeeI } from './interfaces/EditEmployeeInterface';
 import _ from 'lodash';
 
 class EditEmployee extends Component<RouteComponentProps,EditEmployeeI> {
@@ -33,7 +33,13 @@ class EditEmployee extends Component<RouteComponentProps,EditEmployeeI> {
     public componentWillMount(): void {const api_url = 'http://localhost:7000/employees/' + this.getid();
         console.log(api_url);
         axios.get(api_url).then(response => {
+            console.log(response.data)
             this.setState({employee: response.data as any});
+        }).catch(function(err){
+            console.log(err); // Network Error
+            alert("Database is under construction. Please try again later")
+            window.location.href = 'http://localhost:3000/'
+
         });
     }
 
@@ -127,10 +133,9 @@ class EditEmployee extends Component<RouteComponentProps,EditEmployeeI> {
                 }
                 
             }).catch((error) => {
-                if (error.response) {
-                    alert(error.response.data);
-                    window.location.href = 'http://localhost:3000/edit-employee/' + result
-                }
+                console.log(error);
+                alert("Database is under construction. Please try again later");
+                window.location.href = 'http://localhost:3000/edit-employee/' + result
             })
     
     } 
@@ -142,6 +147,8 @@ class EditEmployee extends Component<RouteComponentProps,EditEmployeeI> {
                 window.location.href = 'http://localhost:3000/employee-list';
             }).catch((error) => {
                 console.log(error)
+                alert("Database is under construction. Please try again later");
+                window.location.href = 'http://localhost:3000/employee-list'
             })
     }
 

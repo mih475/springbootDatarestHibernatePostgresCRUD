@@ -3,7 +3,7 @@ import { ChangeEvent } from 'react';
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 import axios, { AxiosResponse } from 'axios';
-import {CreateEmployeeI} from './CreateEmployeeInterface';
+import {CreateEmployeeI} from './interfaces/CreateEmployeeInterface';
 import DropdownMenu from '@restart/ui/esm/DropdownMenu';
 class CreateEmployee extends Component<{},CreateEmployeeI> {
     constructor(props: any) {
@@ -106,11 +106,9 @@ class CreateEmployee extends Component<{},CreateEmployeeI> {
 
             })
             .catch (err => {
-              if (err.response) {
-                console.log(err.response.data);
-                alert(err.response.data);
-                window.location.href = 'http://localhost:3000/create-employee'
-              } 
+              console.log(err);
+              alert("Database is under construction. Please try again later");
+              window.location.href = 'http://localhost:3000/create-employee'
             })
 
         } catch (error) {
